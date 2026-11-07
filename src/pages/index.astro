@@ -1,0 +1,362 @@
+---
+import { Image, Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClassEssentials from '../components/ClassEssentials.astro';
+import Icon from '../components/Icon.astro';
+import { classDetails, contact, links, site, venue } from '../data/site';
+import class1 from '../assets/photos/class1.jpg';
+import class2 from '../assets/photos/class2.jpg';
+import portrait from '../assets/photos/profile-pic.jpg';
+import badge from '../assets/brand/tcia-accredited-instructor.png';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: new URL('/', site.origin).href,
+  email: contact.email,
+  telephone: contact.phones.map((p) => p.display),
+  sameAs: [contact.facebook.url],
+  location: {
+    '@type': 'Place',
+    name: venue.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Reading Room Drive, off Bellamour Way',
+      addressLocality: 'Colton, Rugeley',
+      addressRegion: 'Staffordshire',
+      postalCode: venue.postcode,
+      addressCountry: 'GB',
+    },
+  },
+  areaServed: ['Colton', 'Colwich', 'Rugeley'],
+};
+---
+
+<BaseLayout
+  current="home"
+  title="Tai Chi classes in Colton, near Rugeley | Colton & Colwich T’ai Chi"
+  description={`Friendly Tai Chi classes at ${venue.name}, near Rugeley, Staffordshire. ${classDetails.day}, ${classDetails.time}, ${classDetails.price}. Beginners and experienced students welcome.`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <!-- Welcome and class essentials -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__intro">
+        <h1 id="hero-title">Tai Chi in Colton</h1>
+        <p class="hero__lead">
+          Friendly classes near Rugeley for beginners and experienced students. Learn at your own pace, practise with others and
+          enjoy being part of a welcoming local group.
+        </p>
+      </div>
+      <ClassEssentials />
+    </div>
+    <div class="wrap">
+      <Picture
+        src={class1}
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1200, 1600, 2000]}
+        sizes="(min-width: 72rem) 72rem, calc(100vw - 2rem)"
+        alt="Andrew Marshall, in black, leading a Tai Chi class. Students stand in rows behind him, following the same movement with arms extended."
+        class="hero__photo"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- Coming to a class -->
+  <section id="classes" class="section" aria-labelledby="classes-title">
+    <div class="wrap split">
+      <div class="prose">
+        <p class="eyebrow">Classes</p>
+        <h2 id="classes-title">Coming to a class</h2>
+        <p>Whether you are trying Tai Chi for the first time or returning to your practice, you are welcome to join us.</p>
+        <p>
+          Each session begins with gentle Qigong exercises before we learn and practise the Tai Chi form together. Teaching caters
+          for beginners as well as those with more experience. We’re a friendly, enthusiastic group, and a sense of humour is always
+          welcome.
+        </p>
+        <p>
+          We run a daytime class only. If you are looking for evening classes, the <a href={links.union}>T’ai Chi &amp; Internal Arts Union website</a> lists other instructors.
+        </p>
+      </div>
+      <aside class="first-visit" aria-labelledby="first-visit-title">
+        <h3 id="first-visit-title">Your first visit</h3>
+        <ul class="first-visit__list">
+          <li>
+            <Icon name="clock" />
+            <p>Please arrive just before 10am so we can start on time.</p>
+          </li>
+          <li>
+            <Icon name="note" />
+            <p>Bring a £5 note for the session, please, rather than coins.</p>
+          </li>
+          <li>
+            <Icon name="chat" />
+            <p>
+              <a href="#contact">Contact Andrew</a> before your first visit so we know to expect you and can answer any questions.
+            </p>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- About Andrew and the group -->
+  <section id="about" class="section section--tint" aria-labelledby="about-title">
+    <div class="wrap about">
+      <Picture
+        src={portrait}
+        formats={['avif', 'webp']}
+        widths={[360, 560, 800, 1100]}
+        sizes="(min-width: 56rem) 24rem, (min-width: 36rem) 20rem, calc(100vw - 2rem)"
+        alt="Andrew Marshall, smiling, outdoors in front of green foliage, wearing a black sweatshirt with a Tai Chi emblem."
+        class="about__photo"
+      />
+      <div class="prose about__text">
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">About Andrew and the group</h2>
+        <p>Classes are led by Andrew Marshall, a senior instructor registered with the T’ai Chi &amp; Internal Arts Union.</p>
+        <p>
+          Our community group began in Colwich in 2006 and moved to Colton in 2012. We offer affordable tuition on a non-profit basis,
+          with surplus funds supporting local community causes.
+        </p>
+        <Image
+          src={badge}
+          widths={[168, 336]}
+          sizes="168px"
+          alt="TCIA Accredited Instructor badge, taichiunion.com"
+          class="about__badge"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- The Tai Chi we practise -->
+  <section id="tai-chi" class="section" aria-labelledby="taichi-title">
+    <div class="wrap taichi">
+      <div class="prose">
+        <p class="eyebrow">The practice</p>
+        <h2 id="taichi-title">The Tai Chi we practise</h2>
+        <p>
+          Tai Chi, also written taiji, brings movement and attention together through a sequence known as a form. Although its
+          movements have martial-art origins, we mainly practise them individually, without contact with a partner.
+        </p>
+        <p>
+          Our class teaches a 47-move short Yang form. It is based on the form developed by Cheng Man-Ch’ing, also known as Zheng
+          Manqing, with movements added from the long Yang form by his student Dr Chi Chiang-Tao.
+        </p>
+        <p>
+          There is more to the practice than remembering a sequence. We take time to explore how the movements connect, working gently
+          and paying attention to coordination and the way we move. The opening Qigong exercises are part of this approach.
+        </p>
+        <p>
+          Learning is gradual. You do not need to know the whole form before you can take part. Regular practice between classes helps
+          the movements become more familiar, while the group sessions provide teaching and opportunities to practise together.
+        </p>
+      </div>
+      <div class="taichi__aside">
+        <Picture
+          src={class2}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 56rem) 30rem, calc(100vw - 2rem)"
+          alt="Andrew and the class facing forward with palms raised, practising together on the wooden floor of the hall."
+          class="taichi__photo"
+        />
+        <p class="taichi__fact" aria-hidden="true"><span>47</span> moves in our short Yang form</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Practise at home -->
+  <section id="practice" class="section section--compact on-ink" aria-labelledby="practice-title">
+    <div class="wrap practice">
+      <div class="prose">
+        <h2 id="practice-title">Practise at home</h2>
+        <p>Our free demonstration videos can help you practise between classes. They support your learning alongside teaching.</p>
+      </div>
+      <a class="button button--light" href="/video-demo.html">
+        View practice videos
+        <Icon name="arrow" />
+      </a>
+    </div>
+  </section>
+
+  <!-- Find us -->
+  <section id="find-us" class="section" aria-labelledby="find-title">
+    <div class="wrap find">
+      <div class="prose">
+        <p class="eyebrow">Venue</p>
+        <h2 id="find-title">Find us</h2>
+        <p>
+          The Village Hall is a modern amenity in the heart of Colton, two miles from Rugeley. From the A51, take the B5013 for a mile
+          towards Uttoxeter and turn right into Colton. The hall is signposted.
+        </p>
+      </div>
+      <div class="venue-card">
+        <Icon name="pin" class="venue-card__icon" />
+        <address>
+          <strong>{venue.name}</strong><br />
+          {venue.addressLines.map((line) => (<>{line}<br /></>))}
+        </address>
+        <div class="button-row">
+          <a class="button" href={venue.directionsUrl}>
+            Get directions{' '}<span class="sr-only">(Google Maps)</span>
+          </a>
+        </div>
+        <p class="venue-card__more"><a href={venue.website}>Colton Village Hall website</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get in touch -->
+  <section id="contact" class="section section--tint" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="prose contact__intro">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title">Get in touch</h2>
+        <p>Interested in coming along, or have a question? Contact Andrew to find out more or let us know you would like to attend.</p>
+      </div>
+      <ul class="contact-cards">
+        <li class="contact-card">
+          <Icon name="mail" />
+          <h3>Email</h3>
+          <a class="contact-card__link" href={`mailto:${contact.email}`}>{contact.email}</a>
+        </li>
+        <li class="contact-card">
+          <Icon name="phone" />
+          <h3>Telephone</h3>
+          <p class="contact-card__phones">
+            {contact.phones.map((p, i) => (
+              <>
+                {i > 0 && <span class="contact-card__or">or</span>}
+                <a class="contact-card__link" href={`tel:${p.tel}`}><span class="sr-only">{p.label}: </span>{p.display}</a>
+              </>
+            ))}
+          </p>
+        </li>
+        <li class="contact-card">
+          <Icon name="facebook" />
+          <h3>Find us on Facebook</h3>
+          <a class="contact-card__link" href={contact.facebook.url}>{contact.facebook.handle}<span class="sr-only"> on Facebook</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding-top: clamp(2rem, 6vw, 4rem); }
+  .hero__grid {
+    display: grid; gap: var(--space-4);
+    align-items: center;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .hero__lead { font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.4rem); line-height: 1.55; max-width: 34rem; color: var(--ink-soft); }
+  .hero__photo { width: 100%; border-radius: var(--radius-lg); }
+  .hero :global(picture) { display: block; }
+
+  @media (min-width: 56rem) {
+    .hero__grid { grid-template-columns: 1.15fr 1fr; gap: var(--space-5); }
+    .hero__photo { aspect-ratio: 2 / 1; object-fit: cover; object-position: 50% 4%; }
+  }
+
+  .section--compact { padding-block: var(--space-5); }
+
+  /* Tighter than the standard section gap: space below the large hero photo
+     reads larger than the same space above a background-colour change. */
+  #classes { padding-top: clamp(2.5rem, 2rem + 2.5vw, 4rem); }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+  @media (min-width: 56rem) {
+    .split { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-5); }
+  }
+
+  .first-visit {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-3);
+    box-shadow: 0 1px 0 var(--line);
+  }
+  @media (min-width: 56rem) { .first-visit { margin-top: 4.6rem; } }
+  .first-visit h3 { margin-bottom: var(--space-3); }
+  .first-visit__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  .first-visit__list li { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--space-2); align-items: start; }
+  .first-visit__list :global(svg) {
+    width: 2.5rem; height: 2.5rem; padding: 0.55rem; border-radius: 50%;
+    background: var(--slate-pale); color: var(--ink);
+  }
+
+  .about { display: grid; gap: var(--space-4); align-items: center; }
+  .about__photo {
+    width: 100%; max-width: 24rem; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%;
+    border-radius: var(--radius-lg);
+  }
+  .about__badge { width: 168px; height: auto; margin-top: var(--space-4); }
+  @media (min-width: 36rem) {
+    .about { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: var(--space-5); }
+  }
+  @media (min-width: 56rem) {
+    .about { grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); }
+  }
+
+  .taichi { display: grid; gap: var(--space-4); }
+  .taichi__photo { width: 100%; border-radius: var(--radius-lg); }
+  .taichi__fact {
+    display: flex; align-items: baseline; gap: 0.6rem;
+    margin-top: var(--space-3); padding-top: var(--space-2); border-top: 2px solid var(--ink);
+    font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; line-height: 1.2;
+  }
+  .taichi__fact span { font-size: 3.5rem; line-height: 1; color: var(--slate); }
+  @media (min-width: 56rem) {
+    .taichi { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+    .taichi__aside { margin-top: 4.6rem; }
+  }
+
+  .practice { display: grid; gap: var(--space-3); align-items: center; }
+  .practice h2 { margin-bottom: var(--space-1); }
+  .practice p { color: var(--on-ink-muted); }
+  @media (min-width: 48rem) {
+    .practice { grid-template-columns: 1fr auto; gap: var(--space-5); }
+  }
+
+  .find { display: grid; gap: var(--space-4); align-items: start; }
+  @media (min-width: 56rem) {
+    .find { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-5); }
+    .venue-card { margin-top: 4.6rem; }
+  }
+  .venue-card {
+    position: relative;
+    background: var(--ink); color: var(--cream);
+    border-radius: var(--radius-lg); padding: var(--space-4) var(--space-3);
+  }
+  .venue-card :global(.venue-card__icon) { width: 2rem; height: 2rem; color: var(--on-ink-muted); margin-bottom: var(--space-2); }
+  .venue-card address { font-style: normal; font-size: 1.15rem; line-height: 1.6; margin-bottom: var(--space-3); }
+  .venue-card address strong { font-family: var(--font-heading); font-size: 1.5rem; display: inline-block; margin-bottom: 0.2rem; }
+  .venue-card .button { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+  .venue-card .button:hover { background: var(--white); border-color: var(--white); }
+  .venue-card__more { margin-top: var(--space-2); font-size: 1rem; }
+  .venue-card__more a { color: var(--cream); }
+  .venue-card :global(:focus-visible) { outline-color: var(--cream); box-shadow: 0 0 0 7px var(--ink); }
+
+  .contact__intro { margin-bottom: var(--space-4); }
+  .contact-cards {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: var(--space-2);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+  .contact-card {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: var(--space-3);
+  }
+  .contact-card :global(svg) { width: 1.75rem; height: 1.75rem; color: var(--slate); margin-bottom: var(--space-1); }
+  .contact-card h3 { font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--muted); }
+  .contact-card__link {
+    font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.45rem);
+    overflow-wrap: anywhere; line-height: 1.3;
+  }
+  .contact-card__phones { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; margin: 0; }
+  .contact-card__or { color: var(--muted); font-size: 1rem; }
+</style>

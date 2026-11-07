@@ -1,0 +1,21 @@
+# Private source material is never kept in this repository.
+/build-inputs/
+
+# Dependencies, build output and caches
+node_modules/
+dist/
+.astro/
+
+# Test output
+qa-output/
+test-results/
+playwright-report/
+
+# Local settings and secrets
+.env
+.env.*
+.netlify/
+.vscode/
+.idea/
+*.log
+.DS_Store

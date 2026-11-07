@@ -1,0 +1,36 @@
+/* Shared design tokens. Colours are drawn from the selected logo: its ink
+   black, cream disc and the slate-blue of the figure's clothing and shoes. */
+:root {
+  --ink: #101e27;
+  --ink-soft: #33424d;
+  --muted: #4b5862;
+  --paper: #fbf8ef;
+  --paper-deep: #f2ecdc;
+  --cream: #f8f4e5;
+  --white: #ffffff;
+  --slate: #4e6375;
+  --slate-pale: #e3e8ec;
+  --blue: #3f5a86;
+  --blue-dark: #2f4568;
+  --line: #d9d1bd;
+  --on-ink-muted: #c9d1d8;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: clamp(3.5rem, 8vw, 6rem);
+
+  --measure: 36rem;
+  --wide: 72rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+
+  --text-base: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-small: 0.95em;
+  --h1: clamp(2.6rem, 1.8rem + 3.6vw, 4.4rem);
+  --h2: clamp(2rem, 1.6rem + 1.8vw, 2.9rem);
+  --h3: clamp(1.4rem, 1.25rem + 0.6vw, 1.7rem);
+}

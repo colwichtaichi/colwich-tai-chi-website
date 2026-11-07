@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { contact, site } from '../../data/site';
+---
+
+<BaseLayout
+  current="privacy"
+  title="Privacy information"
+  description="How the Colton & Colwich T’ai Chi website handles information: no forms, accounts, cookies or tracking, and what happens when you contact Andrew."
+>
+  <article class="section">
+    <div class="wrap prose">
+      <p class="eyebrow">Privacy</p>
+      <h1>Privacy information</h1>
+      <p class="lead">This page explains what information this website collects and how we use the details you share when you contact us.</p>
+
+      <h2>Who we are</h2>
+      <p>
+        {site.name} is a community group led by {site.instructor}. We offer affordable tuition on a non-profit basis. You can contact us by email at <a href={`mailto:${contact.email}`}>{contact.email}</a> or by telephone on {contact.phones.map((p, i) => (<>{i > 0 && ' or '}<a href={`tel:${p.tel}`}>{p.display}</a></>))}.
+      </p>
+
+      <h2>Information this website collects</h2>
+      <p>
+        This website has no contact forms, booking system, member accounts or mailing list. It does not set cookies and does not use
+        analytics or advertising tracking. Fonts and images are served from the website itself.
+      </p>
+      <p>
+        Netlify hosts this website and may process technical information, such as your IP address, when you visit. For details, see{' '}
+        <a href="https://www.netlify.com/privacy/">Netlify’s privacy policy</a>.
+      </p>
+
+      <h2>When you contact us</h2>
+      <p>
+        If you email, phone or message us, we use your details to reply and to arrange your visit to a class. We do not use them for
+        marketing. The providers of the email or messaging services we use also process these communications.
+      </p>
+      <p>
+        We keep enquiry messages for up to three months in case you get back in touch, then delete them. We keep the class register
+        for two years.
+      </p>
+
+      <h2>Links to other websites</h2>
+      <p>
+        Our practice videos are hosted on YouTube, and we link to Facebook, Google Maps, Colton Village Hall and the T’ai Chi &amp;
+        Internal Arts Union. Those websites have their own privacy and cookie policies, which apply once you follow a link.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You can ask us what information we hold about you, or ask us to correct or delete it, by contacting Andrew using the details
+        above. If you are unhappy with how we have handled your information, you can contact the <a href="https://ico.org.uk/">Information Commissioner’s Office</a>.
+      </p>
+
+      <p class="updated">Last updated: 7 November 2026</p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .lead { font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.35rem); line-height: 1.55; color: var(--ink-soft); }
+  h2 { font-size: var(--h3); margin-top: var(--space-4); }
+  .updated { margin-top: var(--space-4); color: var(--ink-soft); }
+</style>

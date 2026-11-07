@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+import { nav, site } from '../data/site';
+
+interface Props { current?: string }
+const { current } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="/" aria-label={`${site.name} – home`}>
+      <Image src={logo} alt="" widths={[64, 128, 192]} sizes="(min-width: 48rem) 64px, 52px" class="brand__logo" loading="eager" />
+      <span class="brand__name">Colton &amp; Colwich <span class="brand__accent">T’ai Chi</span></span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="menu-toggle__bars" aria-hidden="true"></span>
+      Menu
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+        <li>
+          <a class="site-nav__videos" href="/video-demo.html" aria-current={current === 'videos' ? 'page' : undefined}>Practice videos</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navEl = document.getElementById('site-nav');
+  if (toggle && navEl) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      navEl.classList.toggle('is-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    navEl.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    // Collapse the links behind the Menu button only once the handlers above are attached,
+    // so a script that fails or never runs leaves the links visible.
+    toggle.closest('.site-header')?.classList.add('menu-ready');
+  }
+</script>
+
+<style>
+  .site-header {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    z-index: 5;
+  }
+  .site-header__inner {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
+    padding-block: 0.6rem;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--ink); text-decoration: none;
+  }
+  .brand:hover { color: var(--ink); }
+  .brand__logo { width: 52px; height: auto; }
+  .brand__name {
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem); line-height: 1.1;
+  }
+  .brand__accent { color: var(--slate); white-space: nowrap; }
+
+  .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 0.25rem; }
+  .site-nav a {
+    display: block; padding: 0.55rem 0.8rem; border-radius: 999px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem;
+    color: var(--ink); text-decoration: none;
+  }
+  .site-nav a:hover { background: var(--slate-pale); }
+  .site-nav .site-nav__videos { background: var(--ink); color: var(--cream); margin-left: 0.5rem; padding-inline: 1.1rem; }
+  .site-nav .site-nav__videos:hover { background: var(--ink-soft); }
+  .site-nav .site-nav__videos[aria-current='page'] { background: var(--blue); }
+
+  .menu-toggle {
+    display: none; align-items: center; gap: 0.6rem;
+    min-height: 2.75rem; padding: 0.5rem 1rem;
+    font: 700 1.05rem var(--font-heading); color: var(--ink);
+    background: transparent; border: 2px solid var(--ink); border-radius: 999px; cursor: pointer;
+  }
+  .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after {
+    display: block; width: 1.1rem; height: 2px; background: currentColor; position: relative;
+  }
+  .menu-toggle__bars::before, .menu-toggle__bars::after { content: ''; position: absolute; left: 0; }
+  .menu-toggle__bars::before { top: -6px; }
+  .menu-toggle__bars::after { top: 6px; }
+
+  @media (min-width: 48rem) {
+    .brand__logo { width: 64px; }
+  }
+
+  /* Small screens: the links wrap below the brand until the menu script is ready. */
+  @media (max-width: 55.99rem) {
+    .site-header__inner { flex-wrap: wrap; gap: 0.5rem var(--space-2); }
+    .brand { flex: 1 1 0; min-width: 0; gap: 0.6rem; }
+    .brand__logo { width: 46px; }
+    .menu-toggle { flex: none; }
+    .site-nav { width: 100%; }
+    .site-nav ul { flex-wrap: wrap; }
+    .site-nav .site-nav__videos { margin-left: 0; }
+
+    .site-header.menu-ready .menu-toggle { display: inline-flex; }
+    .site-header.menu-ready .site-nav { display: none; }
+    .site-header.menu-ready .site-nav.is-open { display: block; padding-bottom: 0.75rem; }
+    .site-header.menu-ready .site-nav.is-open ul { flex-direction: column; align-items: stretch; gap: 0.25rem; }
+    .site-header.menu-ready .site-nav.is-open a { padding: 0.8rem 1rem; border-radius: var(--radius); }
+    .site-header.menu-ready .site-nav.is-open .site-nav__videos { text-align: center; margin-top: 0.4rem; }
+  }
+</style>

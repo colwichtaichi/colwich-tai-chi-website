@@ -1,0 +1,50 @@
+# Netlify settings. Netlify builds the site automatically when main changes.
+# Headers below apply to every address the project serves, including previews.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Keeps the site out of search results until launch. Remove the X-Robots-Tag line
+# only at launch (see README "Search engines and launch settings").
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'"
+
+# Build output in /_astro/ has content-hashed filenames (a changed file gets a new
+# name), so browsers can keep it for a year. HTML keeps Netlify's default revalidation.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Old Weebly page addresses now live as sections of the home page.
+# /video-demo.html is kept as a real page.
+[[redirects]]
+  from = "/classes.html"
+  to = "/#classes"
+  status = 301
+
+[[redirects]]
+  from = "/tai-chi.html"
+  to = "/#tai-chi"
+  status = 301
+
+[[redirects]]
+  from = "/finding-us.html"
+  to = "/#find-us"
+  status = 301
+
+[[redirects]]
+  from = "/contact-us.html"
+  to = "/#contact"
+  status = 301

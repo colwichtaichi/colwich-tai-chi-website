@@ -1,0 +1,120 @@
+---
+// Built as /video-demo.html so the existing address keeps working.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { videos } from '../data/videos';
+
+// Thumbnails are local copies named by YouTube video id
+// (scripts/fetch-video-thumbnails.mjs), so no request goes to YouTube on page load.
+const thumbnails = import.meta.glob<{ default: ImageMetadata }>('../assets/video-thumbnails/*.jpg', { eager: true });
+
+const items = videos.map((v) => {
+  const id = new URL(v.url).searchParams.get('v');
+  const thumbnail = thumbnails[`../assets/video-thumbnails/${id}.jpg`]?.default;
+  if (!thumbnail) throw new Error(`Missing thumbnail for ${v.title}: run node scripts/fetch-video-thumbnails.mjs`);
+  // Keep hyphenated words like "16-step" together, and keep the dash off the start of a line.
+  const parts = v.title.replace(' — ', '\u00a0— ').split(/(\S*-\S*)/).filter(Boolean);
+  return { ...v, parts, thumbnail };
+});
+---
+
+<BaseLayout
+  current="videos"
+  title="Practice videos"
+  description="Free Tai Chi practice videos for Colton & Colwich T’ai Chi students: the 47-move Yang form (front and rear views), the 16-step sword form, Shibashi set 1 and silk-reeling exercises."
+>
+  <section class="section page-intro">
+    <div class="wrap prose">
+      <p class="eyebrow">For students</p>
+      <h1>Practice videos</h1>
+      <p class="lead">
+        Use these free demonstrations to support your practice between classes. They are practice aids, not a replacement for teaching.
+      </p>
+    </div>
+  </section>
+
+  <section class="section videos" aria-label="Video demonstrations">
+    <div class="wrap">
+      <ol class="video-list">
+        {items.map((v, i) => (
+          <li class="video">
+            {/* Mouse/touch shortcut only: the button below is the accessible link. */}
+            <a class="video__thumb" href={v.url} tabindex="-1" aria-hidden="true">
+              <Picture
+                src={v.thumbnail}
+                formats={['avif', 'webp']}
+                width={640}
+                height={360}
+                widths={[320, 480, 640]}
+                sizes="(min-width: 66rem) 330px, (min-width: 60rem) calc(33vw - 4rem), (min-width: 40rem) calc(50vw - 5rem), calc(100vw - 5rem)"
+                alt=""
+                loading={i < 3 ? 'eager' : 'lazy'}
+              />
+            </a>
+            <span class="video__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="video__body">
+              <h2 class="video__title">
+                {v.parts.map((p) => (p.includes('-') ? <span class="nowrap">{p}</span> : p))}
+              </h2>
+              <a class="button video__link" href={v.url}>
+                <Icon name="external" />
+                Watch on YouTube<span class="sr-only">: {v.title}</span>
+              </a>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p class="back">
+        <a href="/#classes"><span aria-hidden="true">←</span> Back to class information</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-intro { padding-bottom: var(--space-4); }
+  .lead { font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.4rem); line-height: 1.55; color: var(--ink-soft); }
+  .videos { padding-top: 0; }
+
+  .video-list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: var(--space-2); container-type: inline-size;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+  .video {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto 1fr; gap: var(--space-2);
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: var(--space-3);
+  }
+  .video__num {
+    font-family: var(--font-heading); font-weight: 700; font-size: 1.6rem; line-height: 1.15;
+    color: var(--slate);
+    font-variant-numeric: tabular-nums; min-width: 2ch;
+  }
+  .video__body { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start; }
+  /* Only with enlarged text on a phone (the list is under 13em wide): give the title
+     and button the full card width so the button fits. */
+  @container (max-width: 13em) {
+    .video { padding: var(--space-2); }
+    .video__body { grid-column: 1 / -1; }
+  }
+  .video__title { font-size: var(--h3); margin: 0; }
+  .nowrap { white-space: nowrap; }
+  .video__thumb {
+    grid-column: 1 / -1;
+    display: block; overflow: hidden; border-radius: var(--radius);
+    background: var(--slate-pale);
+  }
+  .video__thumb :global(img) {
+    width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+    transition: transform 0.25s ease;
+  }
+  .video__thumb:hover :global(img) { transform: scale(1.03); }
+  @media (prefers-reduced-motion: reduce) { .video__thumb :global(img) { transition: none; } }
+  .video__link { margin-top: auto; font-size: 1.05rem; min-height: 2.75rem; padding-inline: 1.1rem; }
+
+  .back { margin-top: var(--space-5); font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; }
+</style>

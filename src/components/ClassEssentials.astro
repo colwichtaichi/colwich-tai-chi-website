@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { classDetails, venue } from '../data/site';
+---
+
+<div class="essentials on-ink">
+  <h2 class="sr-only">Class details</h2>
+  <dl>
+    <div>
+      <dt><Icon name="calendar" /> When</dt>
+      <dd>{classDetails.day}, {classDetails.time}</dd>
+    </div>
+    <div>
+      <dt><Icon name="pin" /> Where</dt>
+      <dd><a href="#find-us">{venue.name}</a></dd>
+    </div>
+    <div>
+      <dt><Icon name="coin" /> Cost</dt>
+      <dd>{classDetails.price} <span>· {classDetails.priceNote}</span></dd>
+    </div>
+  </dl>
+  <a class="button button--light" href="#contact">Enquire about a class</a>
+</div>
+
+<style>
+  .essentials {
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-3);
+  }
+  dl { margin: 0 0 var(--space-4); display: grid; gap: 0; }
+  dl > div { padding-block: 0.85rem; border-bottom: 1px solid rgb(248 244 229 / 0.2); }
+  dl > div:first-child { padding-top: 0; }
+  dt {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-ink-muted);
+  }
+  dt :global(svg) { width: 1.05rem; height: 1.05rem; }
+  dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.45rem, 1.25rem + 0.9vw, 1.9rem); line-height: 1.2;
+  }
+  dd span { font-weight: 400; font-size: 0.7em; color: var(--on-ink-muted); white-space: nowrap; }
+  dd a { color: var(--cream); text-decoration-thickness: 1px; }
+  .button { width: 100%; }
+  @media (min-width: 30rem) { .essentials { padding: var(--space-4); } }
+</style>

@@ -1,0 +1,11 @@
+/* Site typography: News Cycle + Lora (continuity with the existing website),
+   approved by the client. To change fonts, edit these imports and the two
+   variables below. */
+@import '@fontsource/news-cycle/400.css';
+@import '@fontsource/news-cycle/700.css';
+@import '@fontsource-variable/lora/wght.css';
+
+:root {
+  --font-heading: 'News Cycle', 'Arial Narrow', Arial, sans-serif;
+  --font-body: 'Lora Variable', Georgia, 'Times New Roman', serif;
+}
