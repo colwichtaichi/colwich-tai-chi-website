@@ -5,15 +5,15 @@ export const site = {
   name: 'Colton & Colwich T’ai Chi',
   shortName: 'Colton T’ai Chi',
 
-  // The planned main address. Canonical URLs, the sitemap and sharing images all
-  // use this value. Set originConfirmed to true once the domain is connected and
-  // serving this site over HTTPS.
+  // Launch-only configuration: publish these enabled flags only after this
+  // domain serves the site over valid HTTPS and the launch version is approved.
+  // Canonical URLs, the sitemap and sharing images all use this address.
   origin: 'https://www.colwichtaichi.org.uk',
-  originConfirmed: false,
+  originConfirmed: true,
 
   // Keep false for previews. Set true only during an authorised launch, along
   // with removing the X-Robots-Tag header in netlify.toml.
-  allowIndexing: false,
+  allowIndexing: true,
 
   instructor: 'Andrew Marshall',
 };

@@ -8,12 +8,11 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Keeps the site out of search results until launch. Remove the X-Robots-Tag line
-# only at launch (see README "Search engines and launch settings").
+# Launch-only configuration: publish only after the final domain serves this
+# site over valid HTTPS and the exact launch version has been approved.
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow, noarchive"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "DENY"
@@ -26,6 +25,14 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Launch-only: redirect the client review hostname after domain/HTTPS checks.
+# Sam's separate andrew-marshall.netlify.app project is not affected.
+[[redirects]]
+  from = "https://colwich-tai-chi.netlify.app/*"
+  to = "https://www.colwichtaichi.org.uk/:splat"
+  status = 301
+  force = true
 
 # Old Weebly page addresses now live as sections of the home page.
 # /video-demo.html is kept as a real page.
